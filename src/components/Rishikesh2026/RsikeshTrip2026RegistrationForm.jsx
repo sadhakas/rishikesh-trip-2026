@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import qrCode from '../../assets/qr-code.png'; 
 
+// --- THE KILL SWITCH ---
+// Change this to `false` to instantly stop accepting new registrations and payments.
+const IS_FORM_OPEN = true;
+
 export default function RsikeshTrip2026RegistrationForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -84,6 +88,25 @@ export default function RsikeshTrip2026RegistrationForm() {
     }
   };
 
+  // 1. CLOSED STATE UI (Triggers if IS_FORM_OPEN is false)
+  if (!IS_FORM_OPEN) {
+    return (
+      <div className="bg-slate-800/60 backdrop-blur-xl p-10 rounded-3xl border border-slate-600/50 text-center shadow-2xl transition-all">
+        <div className="text-teal-400/50 mb-6 flex justify-center">
+          <svg className="w-16 h-16 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+        </div>
+        <h2 className="text-3xl font-black text-white mb-3 tracking-tight lowercase">registrations closed.</h2>
+        <p className="text-slate-200 text-lg lowercase mb-8 leading-relaxed">
+          we are officially full for the rishikesh trip.<br/>thank you for the overwhelming response!
+        </p>
+        <p className="text-teal-300 font-medium lowercase tracking-wide">stay tuned for future journeys.</p>
+      </div>
+    );
+  }
+
+  // 2. SUCCESS STATE UI
   if (success) {
     return (
       <div className="bg-slate-800/60 backdrop-blur-xl p-10 rounded-3xl border border-slate-600/50 text-center shadow-2xl transition-all">
@@ -97,13 +120,18 @@ export default function RsikeshTrip2026RegistrationForm() {
     );
   }
 
+  // 3. DEFAULT FORM UI
   return (
     <div className="bg-slate-800/60 backdrop-blur-xl p-6 md:p-10 rounded-3xl border border-slate-600/50 shadow-2xl w-full">
       <h2 className="text-3xl font-bold text-white mb-8 lowercase tracking-wide flex items-center gap-3">
         reserve your spot <span className="w-12 h-[2px] bg-teal-500 rounded-full inline-block"></span>
       </h2>
 
-      {error && <div className="bg-red-500/10 border border-red-500/50 text-red-200 px-5 py-4 rounded-xl mb-8 text-sm lowercase shadow-inner">{error}</div>}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/50 text-red-200 px-5 py-4 rounded-xl mb-8 text-sm lowercase shadow-inner">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         
