@@ -3,7 +3,7 @@ import qrCode from '../../assets/qr-code.png';
 
 // --- THE KILL SWITCH ---
 // Change this to `false` to instantly stop accepting new registrations and payments.
-const IS_FORM_OPEN = true;
+const IS_FORM_OPEN = false;
 
 export default function RsikeshTrip2026RegistrationForm() {
   const [formData, setFormData] = useState({
